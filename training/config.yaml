@@ -1,1 +1,18 @@
-# placeholder — implemented in Phase 4
+model:
+  name: swin_tiny_patch4_window7_224
+  pretrained: true
+
+training:
+  head_epochs: 5
+  full_epochs: 15
+  batch_size: 32
+  head_lr: 1.0e-4
+  backbone_lr: 1.0e-5
+  warmup_epochs: 2
+  num_workers: 4
+  checkpoint_dir: checkpoints
+
+data:
+  dataset_name: yashikota/birds-525-species-image-classification
+  image_size: 224
+  labels_output: labels.json
