@@ -1,0 +1,36 @@
+# python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# model artifacts
+*.pt
+*.pth
+*.onnx
+*.ckpt
+checkpoints/
+
+# data
+data/
+*.parquet
+
+# env
+.env
+.env.*
+
+# jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# os
+.DS_Store
+Thumbs.db
+
+# ruff / mypy
+.ruff_cache/
+.mypy_cache/
