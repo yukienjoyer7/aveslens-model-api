@@ -7,7 +7,7 @@ import yaml
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
 from torch.utils.data import DataLoader
 
-from training.dataset import BirdDataset, load_split
+from training.dataset import BirdDataset, get_num_classes, load_split
 from training.model import build_model, freeze_backbone, unfreeze_all
 from training.transforms import get_base_transforms, get_train_transforms
 
@@ -49,12 +49,14 @@ def save_checkpoint(model: nn.Module, path: str | Path) -> None:
     print(f"checkpoint saved → {path}")
 
 
-def make_dataloaders(batch_size: int, num_workers: int) -> tuple[DataLoader, DataLoader]:
-    train_ds = BirdDataset(load_split("train"), transform=get_train_transforms())
+def make_dataloaders(batch_size: int, num_workers: int) -> tuple[DataLoader, DataLoader, int]:
+    train_hf = load_split("train")
+    num_classes = get_num_classes(train_hf)
+    train_ds = BirdDataset(train_hf, transform=get_train_transforms())
     val_ds = BirdDataset(load_split("validation"), transform=get_base_transforms())
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
     val_loader = DataLoader(val_ds, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True)
-    return train_loader, val_loader
+    return train_loader, val_loader, num_classes
 
 
 def make_scheduler(optimizer: torch.optim.Optimizer, total_epochs: int, warmup_epochs: int = 2):
@@ -103,8 +105,9 @@ def run_training(
     num_workers: int = 4,
     checkpoint_dir: str = "checkpoints",
 ) -> None:
-    train_loader, val_loader = make_dataloaders(batch_size, num_workers)
-    model = build_model(pretrained=True).to(DEVICE)
+    train_loader, val_loader, num_classes = make_dataloaders(batch_size, num_workers)
+    print(f"num_classes from dataset: {num_classes}")
+    model = build_model(num_classes=num_classes, pretrained=True).to(DEVICE)
     criterion = nn.CrossEntropyLoss()
     history = TrainingHistory()
     best_top1 = 0.0

@@ -7,7 +7,6 @@ from datasets import load_dataset, Dataset
 from torch.utils.data import Dataset as TorchDataset
 
 DATASET_NAME = "yashikota/birds-525-species-image-classification"
-NUM_CLASSES = 525
 SPLITS = ("train", "validation", "test")
 
 
@@ -17,6 +16,10 @@ def load_split(split: str) -> Dataset:
 
 def load_all_splits() -> dict[str, Dataset]:
     return {split: load_split(split) for split in SPLITS}
+
+
+def get_num_classes(dataset: Dataset) -> int:
+    return dataset.features["label"].num_classes
 
 
 def get_label_names(dataset: Dataset) -> list[str]:
@@ -40,7 +43,7 @@ class BirdDataset(TorchDataset):
     def __getitem__(self, idx: int) -> tuple[torch.Tensor, int]:
         sample = self.dataset[idx]
         image = sample["image"].convert("RGB")
-        label = sample["label"]
+        label = int(sample["label"])
         if self.transform:
             image = self.transform(image)
         return image, label
