@@ -7,7 +7,7 @@ import onnxruntime as ort
 from huggingface_hub import hf_hub_download
 from PIL import Image
 
-REPO_ID = os.environ.get("HF_MODEL_REPO", "crtal/swin-tiny-bird525")
+REPO_ID = os.environ.get("HF_MODEL_REPO", "crtal/swin-tiny-bird525-onnx")
 IMAGE_SIZE = 224
 IMAGENET_MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
 IMAGENET_STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)

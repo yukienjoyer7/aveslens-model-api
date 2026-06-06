@@ -105,7 +105,7 @@ println(response.body?.string())
 | Input | 224 × 224 RGB image |
 | Format | ONNX (CPU inference) |
 | Top-1 accuracy | ~97% on validation set |
-| Weights | [`crtal/swin-tiny-bird525`](https://huggingface.co/crtal/swin-tiny-bird525) |
+| Weights | [`crtal/swin-tiny-bird525-onnx`](https://huggingface.co/crtal/swin-tiny-bird525-onnx) |
 
 ---
 
