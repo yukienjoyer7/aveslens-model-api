@@ -1,1 +1,21 @@
-# placeholder — implemented in Phase 8
+name: Deploy to HF Space
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Push to HuggingFace Space
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git remote add space https://crtal:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/crtal/aveslens-model-api
+          git push space main --force

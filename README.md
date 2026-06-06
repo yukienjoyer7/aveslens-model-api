@@ -10,6 +10,8 @@ pinned: false
 
 # AvesLens Model API
 
+![CI](https://github.com/crtal7/aveslens-model-api/actions/workflows/ci.yml/badge.svg)
+
 Bird species classifier — 525 classes, Swin Tiny + ONNX, served as a FastAPI inference API.
 
 ## Endpoint

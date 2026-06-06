@@ -1,0 +1,17 @@
+training/
+checkpoints/
+data/
+.venv/
+__pycache__/
+*.py[cod]
+*.pt
+*.onnx
+*.parquet
+.env
+.git/
+.github/
+.claude/
+*.ipynb
+.ipynb_checkpoints/
+labels.json
+eval_report.json
